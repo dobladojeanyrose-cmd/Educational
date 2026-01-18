@@ -4,13 +4,19 @@
   <meta charset="UTF-8" />
   <title>EduTools Hub</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+
 
   <style>
     body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background-color: #f4f8ff;
-      color: #333;
+     body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: transparent;
+  color: #333;
+}
+
     }
 
     header {
@@ -84,10 +90,29 @@
       padding: 15px;
       margin-top: 40px;
     }
+    header, nav, .hero, .container, footer {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(5px);
+  margin: 20px;
+  border-radius: 15px;
+}
+
   </style>
+  #bg3d {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
 </head>
 
 <body>
+  
+<div id="bg3d"></div>
+
 
   <header>
     <h1>EduTools Hub</h1>
@@ -147,6 +172,48 @@
   <footer id="contact">
     <p>© 2026 EduTools Hub | Made for Educational Purposes</p>
   </footer>
+<script>
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(
+    75,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+  );
+
+  const renderer = new THREE.WebGLRenderer({ alpha: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.getElementById("bg3d").appendChild(renderer.domElement);
+
+  const geometry = new THREE.TorusGeometry(10, 3, 16, 100);
+  const material = new THREE.MeshStandardMaterial({ color: 0x2b6cb0 });
+  const torus = new THREE.Mesh(geometry, material);
+  scene.add(torus);
+
+  const pointLight = new THREE.PointLight(0xffffff);
+  pointLight.position.set(20, 20, 20);
+  scene.add(pointLight);
+
+  const ambientLight = new THREE.AmbientLight(0xffffff);
+  scene.add(ambientLight);
+
+  camera.position.z = 30;
+
+  function animate() {
+    requestAnimationFrame(animate);
+    torus.rotation.x += 0.01;
+    torus.rotation.y += 0.01;
+    renderer.render(scene, camera);
+  }
+
+  animate();
+
+  window.addEventListener("resize", () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+</script>
 
 </body>
 </html>
