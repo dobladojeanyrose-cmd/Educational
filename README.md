@@ -60,11 +60,13 @@
       padding: 20px;
       border-radius: 10px;
       text-align: center;
+      transition: all 0.3s ease;
     }
 
-    .card a {
-      color: #00c8ff;
-      text-decoration: none;
+    .card:hover {
+      transform: scale(1.05);
+      background: rgba(0, 200, 255, 0.2);
+      cursor: pointer;
     }
   </style>
 </head>
@@ -108,41 +110,58 @@
   const scene = new THREE.Scene();
 
   // Camera
-  const camera = new THREE.PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
-  );
-  camera.position.z = 20;
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.z = 25;
 
   // Renderer
   const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.getElementById("bg3d").appendChild(renderer.domElement);
 
-  // Geometry
-  const geometry = new THREE.TorusKnotGeometry(6, 1.5, 100, 16);
-  const material = new THREE.MeshStandardMaterial({ color: 0x00c8ff });
-  const shape = new THREE.Mesh(geometry, material);
-  scene.add(shape);
+  // Torus Knot
+  const geometry = new THREE.TorusKnotGeometry(6, 1.5, 50, 16);
+  const material = new THREE.MeshStandardMaterial({ color: 0x00c8ff, metalness: 0.5, roughness: 0.5 });
+  const torusKnot = new THREE.Mesh(geometry, material);
+  scene.add(torusKnot);
 
   // Lights
-  const light1 = new THREE.PointLight(0xffffff, 1);
-  light1.position.set(10, 10, 10);
+  const light1 = new THREE.PointLight(0xffffff, 1.5);
+  light1.position.set(20, 20, 20);
   scene.add(light1);
 
-  const light2 = new THREE.PointLight(0xffffff, 1);
-  light2.position.set(-10, -10, -10);
+  const light2 = new THREE.PointLight(0xffffff, 1.5);
+  light2.position.set(-20, -20, -20);
   scene.add(light2);
 
-  scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+  scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+
+  // Stars
+  const starsGeometry = new THREE.BufferGeometry();
+  const starCount = 500;
+  const positions = [];
+  for(let i=0; i<starCount; i++){
+    positions.push((Math.random()-0.5)*200);
+    positions.push((Math.random()-0.5)*200);
+    positions.push((Math.random()-0.5)*200);
+  }
+  starsGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  const starsMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.5 });
+  const stars = new THREE.Points(starsGeometry, starsMaterial);
+  scene.add(stars);
 
   // Animation
   function animate() {
     requestAnimationFrame(animate);
-    shape.rotation.x += 0.01;
-    shape.rotation.y += 0.01;
+
+    torusKnot.rotation.x += 0.01;
+    torusKnot.rotation.y += 0.01;
+
+    // Rotating camera
+    const time = Date.now() * 0.0005;
+    camera.position.x = Math.sin(time) * 25;
+    camera.position.z = Math.cos(time) * 25;
+    camera.lookAt(scene.position);
+
     renderer.render(scene, camera);
   }
 
@@ -158,4 +177,5 @@
 
 </body>
 </html>
+
 
