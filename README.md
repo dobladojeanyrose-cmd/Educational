@@ -9,7 +9,6 @@
   <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
 
   <style>
-    /* Basic Reset */
     html {
       scroll-behavior: smooth; /* Smooth scrolling */
     }
@@ -138,11 +137,13 @@
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.getElementById("bg3d").appendChild(renderer.domElement);
 
+  // Torus Knot
   const geometry = new THREE.TorusKnotGeometry(6, 1.5, 50, 16);
   const material = new THREE.MeshStandardMaterial({ color: 0x00c8ff, metalness: 0.5, roughness: 0.5 });
   const torusKnot = new THREE.Mesh(geometry, material);
   scene.add(torusKnot);
 
+  // Lights
   const light1 = new THREE.PointLight(0xffffff, 1.5);
   light1.position.set(20, 20, 20);
   scene.add(light1);
@@ -153,6 +154,7 @@
 
   scene.add(new THREE.AmbientLight(0xffffff, 0.8));
 
+  // Stars
   const starsGeometry = new THREE.BufferGeometry();
   const starCount = 500;
   const positions = [];
@@ -166,14 +168,25 @@
   const stars = new THREE.Points(starsGeometry, starsMaterial);
   scene.add(stars);
 
+  // Scroll Parallax
+  let scrollY = 0;
+  window.addEventListener('scroll', () => {
+    scrollY = window.scrollY * 0.002; // small factor for subtle effect
+  });
+
+  // Animate
   function animate() {
     requestAnimationFrame(animate);
+
     torusKnot.rotation.x += 0.01;
     torusKnot.rotation.y += 0.01;
 
     const time = Date.now() * 0.0005;
+
+    // Rotating camera + scroll parallax
     camera.position.x = Math.sin(time) * 25;
     camera.position.z = Math.cos(time) * 25;
+    camera.position.y = scrollY; // subtle parallax vertical movement
     camera.lookAt(scene.position);
 
     renderer.render(scene, camera);
@@ -201,6 +214,7 @@
 
 </body>
 </html>
+
 
 
 
