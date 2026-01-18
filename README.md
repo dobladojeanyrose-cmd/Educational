@@ -50,9 +50,53 @@
       color: #00ffea;
     }
 
-    .hero {
-      text-align: center;
-      padding: 60px 20px;
+  .hero {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* full viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+/* Hero background image */
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('https://images.pexels.com/photos/8500652/pexels-photo-8500652.jpeg') center/cover no-repeat;
+  background-attachment: fixed; /* subtle parallax */
+  z-index: 0;
+  transition: transform 0.2s ease-out;
+}
+
+/* Overlay for text readability */
+.hero::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.hero h1,
+.hero p {
+  position: relative;
+  z-index: 2;
+  margin: 0 20px;
+}
+
     }
 
     .tools {
