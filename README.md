@@ -1,43 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>EduTools Hub</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Three.js Library -->
+  <!-- Three.js -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
 
   <style>
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
-      background: transparent;
-      color: #333;
+      background: black;
+      color: white;
+      overflow-x: hidden;
     }
 
     #bg3d {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
+      width: 100vw;
+      height: 100vh;
       z-index: -1;
     }
 
-    header {
-      color: #2b6cb0;
+    header, nav, section, footer {
+      background: rgba(0,0,0,0.7);
+      margin: 20px;
       padding: 20px;
-      text-align: center;
-    }
-
-    nav {
-      padding: 10px;
-      text-align: center;
+      border-radius: 12px;
     }
 
     nav a {
-      color: #2b6cb0;
+      color: #00c8ff;
       margin: 0 15px;
       text-decoration: none;
       font-weight: bold;
@@ -48,183 +45,116 @@
     }
 
     .hero {
-      padding: 60px 20px;
       text-align: center;
-    }
-
-    .hero h1 {
-      font-size: 36px;
-      margin-bottom: 10px;
-    }
-
-    .hero p {
-      font-size: 18px;
-      color: #555;
-    }
-
-    .container {
-      padding: 40px 20px;
-      max-width: 1000px;
-      margin: auto;
+      padding: 60px 20px;
     }
 
     .tools {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 20px;
     }
 
     .card {
-      background: white;
+      background: rgba(255,255,255,0.1);
       padding: 20px;
       border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
       text-align: center;
-    }
-
-    .card h3 {
-      color: #2b6cb0;
     }
 
     .card a {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 8px 15px;
-      background: #2b6cb0;
-      color: white;
+      color: #00c8ff;
       text-decoration: none;
-      border-radius: 5px;
-    }
-
-    .card a:hover {
-      background: #1a4f8b;
-    }
-
-    footer {
-      text-align: center;
-      padding: 15px;
-      margin-top: 40px;
-      color: #2b6cb0;
-    }
-
-    /* Floating Glass Effect */
-    header, nav, .hero, .container, footer {
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(6px);
-      margin: 20px;
-      border-radius: 15px;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- 3D Background Container -->
-  <div id="bg3d"></div>
+<div id="bg3d"></div>
 
-  <header>
-    <h1>EduTools Hub</h1>
-    <p>Your All-in-One Educational Tools Website</p>
-  </header>
+<header>
+  <h1>EduTools Hub</h1>
+  <p>Your All-in-One Educational Tools Website</p>
+</header>
 
-  <nav>
-    <a href="#">Home</a>
-    <a href="#tools">Tools</a>
-    <a href="#about">About</a>
-    <a href="#contact">Contact</a>
-  </nav>
+<nav>
+  <a href="#">Home</a>
+  <a href="#tools">Tools</a>
+  <a href="#about">About</a>
+</nav>
 
-  <section class="hero">
-    <h1>Learn Smarter with Digital Tools</h1>
-    <p>Explore free tools for students, teachers, and lifelong learners.</p>
-  </section>
+<section class="hero">
+  <h1>Learn Smarter with Digital Tools</h1>
+  <p>Explore free tools for students and teachers.</p>
+</section>
 
-  <section class="container" id="tools">
-    <h2>Educational Tools</h2>
+<section id="tools">
+  <h2>Educational Tools</h2>
+  <div class="tools">
+    <div class="card">Math Calculator</div>
+    <div class="card">Flashcards</div>
+    <div class="card">Study Planner</div>
+    <div class="card">Quiz Generator</div>
+  </div>
+</section>
 
-    <div class="tools">
-      <div class="card">
-        <h3>Math Calculator</h3>
-        <p>Quickly solve math problems.</p>
-        <a href="#">Open Tool</a>
-      </div>
+<footer>
+  © 2026 EduTools Hub
+</footer>
 
-      <div class="card">
-        <h3>Flashcards</h3>
-        <p>Review and memorize faster.</p>
-        <a href="#">Open Tool</a>
-      </div>
+<script>
+  // Scene
+  const scene = new THREE.Scene();
 
-      <div class="card">
-        <h3>Study Planner</h3>
-        <p>Organize your daily study schedule.</p>
-        <a href="#">Open Tool</a>
-      </div>
+  // Camera
+  const camera = new THREE.PerspectiveCamera(
+    75,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+  );
+  camera.position.z = 20;
 
-      <div class="card">
-        <h3>Quiz Generator</h3>
-        <p>Create quizzes for practice.</p>
-        <a href="#">Open Tool</a>
-      </div>
-    </div>
-  </section>
+  // Renderer
+  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.getElementById("bg3d").appendChild(renderer.domElement);
 
-  <section class="container" id="about">
-    <h2>About EduTools Hub</h2>
-    <p>
-      EduTools Hub is a simple educational website designed to help students and teachers
-      access useful digital learning tools anytime, anywhere.
-    </p>
-  </section>
+  // Geometry
+  const geometry = new THREE.TorusKnotGeometry(6, 1.5, 100, 16);
+  const material = new THREE.MeshStandardMaterial({ color: 0x00c8ff });
+  const shape = new THREE.Mesh(geometry, material);
+  scene.add(shape);
 
-  <footer id="contact">
-    <p>© 2026 EduTools Hub | Made for Educational Purposes</p>
-  </footer>
+  // Lights
+  const light1 = new THREE.PointLight(0xffffff, 1);
+  light1.position.set(10, 10, 10);
+  scene.add(light1);
 
-  <!-- 3D Background Script -->
-  <script>
-    const scene = new THREE.Scene();
+  const light2 = new THREE.PointLight(0xffffff, 1);
+  light2.position.set(-10, -10, -10);
+  scene.add(light2);
 
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1000
-    );
+  scene.add(new THREE.AmbientLight(0xffffff, 0.5));
 
-    const renderer = new THREE.WebGLRenderer({ alpha: true });
+  // Animation
+  function animate() {
+    requestAnimationFrame(animate);
+    shape.rotation.x += 0.01;
+    shape.rotation.y += 0.01;
+    renderer.render(scene, camera);
+  }
+
+  animate();
+
+  // Resize
+  window.addEventListener("resize", () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
-    document.getElementById("bg3d").appendChild(renderer.domElement);
-
-    const geometry = new THREE.TorusGeometry(10, 3, 16, 100);
-    const material = new THREE.MeshStandardMaterial({ color: 0x2b6cb0 });
-    const torus = new THREE.Mesh(geometry, material);
-    scene.add(torus);
-
-    const pointLight = new THREE.PointLight(0xffffff);
-    pointLight.position.set(20, 20, 20);
-    scene.add(pointLight);
-
-    const ambientLight = new THREE.AmbientLight(0xffffff);
-    scene.add(ambientLight);
-
-    camera.position.z = 30;
-
-    function animate() {
-      requestAnimationFrame(animate);
-      torus.rotation.x += 0.01;
-      torus.rotation.y += 0.01;
-      renderer.render(scene, camera);
-    }
-
-    animate();
-
-    window.addEventListener("resize", () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-  </script>
+  });
+</script>
 
 </body>
 </html>
